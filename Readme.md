@@ -2,7 +2,7 @@
 
 ## Building the Dockerfile and Pushing to registery
 
-**Build the Image**
+### Build the Image
 
 Creates a Docker image for the Flask application.
 
@@ -12,13 +12,13 @@ Run `docker build -t Docker-hub-username/image-name:version .`
 
 `docker build -t pankaj42se/flask-app:v1 .`
 
-**Login to Docker Hub**
+### Login to Docker Hub
 
 `docker login`
 
 *Enter your username and password*
 
-**Push Docker Image to DockerHub**
+### Push Docker Image to DockerHub
 
 `docker push image_name`
 
@@ -28,13 +28,13 @@ Run `docker build -t Docker-hub-username/image-name:version .`
 
 ## Steps to deploy Flask App and mongoDB using Kind
 
-**Create a Kubernetes Cluster using kind**
+### Create a Kubernetes Cluster using kind
 
 Creates a multi-node local Kubernetes cluster using a YAML configuration.
 
 `kind create cluster --config create-cluster.yml -n flask-cluster`
 
-**Load Docker Image of Flask App in cluster**
+### Load Docker Image of Flask App in cluster
 
 Loads the Flask Docker image directly into the kind cluster so it can be used without pulling from Docker Hub.
 
@@ -42,45 +42,45 @@ Loads the Flask Docker image directly into the kind cluster so it can be used wi
 
 ## MongoDB Deployment
 
-**Apply MongoDB Authentication Secret**
+### Apply MongoDB Authentication Secret
 
 Creates a Kubernetes Secret to securely store MongoDB username and password.
 
 `kubectl apply -f mongo-secret.yaml`
 
-**Apply MongoDB Persistent Volume and Claim**
+### Apply MongoDB Persistent Volume and Claim
 
 `kubectl apply -f mongo-pv-pvc.yaml`
 
-**Apply MongoDB StatefulSet**
+### Apply MongoDB StatefulSet
 
 `kubectl apply -f mongo-statefulset.yaml`
 
-**Apply MongoDB Service**
+### Apply MongoDB Service
 
 Creates an internal ClusterIP service to allow Flask to connect to MongoDB using DNS.
 
 `kubectl apply -f mongo-service.yaml`
 
-**Deploy Flask Application**
+### Deploy Flask Application
 
 `kubectl apply -f mongo-service.yaml`
 
 ## Flask Application Deployment
 
-**Apply flask App service File**
+### Apply flask App service File
 
 Exposes the Flask application inside the cluster and enables external access using port-forwarding.
 
 `kubectl apply -f flask-service.yaml`
 
-**Apply Horizontal Pod Autoscaler**
+### Apply Horizontal Pod Autoscaler
 
 Automatically scales Flask pods based on CPU utilization.
 
 `kubectl apply -f flask-hpa.yaml`
 
-**Install Metrics Server for finding CPU usage**
+### Install Metrics Server for finding CPU usage
 
 ` kubectl apply -f https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml`
 
@@ -90,7 +90,7 @@ Automatically scales Flask pods based on CPU utilization.
 
 Add this line `  - --kubelet-insecure-tls` inside *containers* -> *args*
 
-**Port Forward Flask Service**
+### Port Forward Flask Service
 
 ` kubectl port-forward service/flask-service 5000:5000`
 
